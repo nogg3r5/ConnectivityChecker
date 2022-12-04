@@ -14,8 +14,13 @@ def check(sites):
  #checkArgs()
  list = []
  for site in sites:
-  site = 'http://' + site
-  res = [requests.get(site),site]
+  addr = 'http://' + site
+  try:
+   requests.get(addr)
+   req=True
+  except:
+   req=False
+  res = [req,site]
   list.append(res)
  print(list)
 
@@ -30,6 +35,33 @@ def checkSocket(sites):
    res='failure'
    print(res+' '+site)
    return
+
+def writeToDb:
+ sqliteConnection = sqlite3.connect('/home/pi/ConnectivityChecker/db/db.sqlite')
+ cursor = sqliteConnection.cursor()
+
+
+ if(isup = True):
+  lastUp=date
+ else:
+  lastdown=date
+  lastUp=get form db
+
+
+ cursor.execute("INSERT INTO ConnectivityCheck (site,type,lastUp,lastDown,IsUp) values(?, ?, ?, ?, ?)",(site,type,lastUp,lastDown,IsUp))
+ sqliteConnection.commit()
+ cursor.close()
+ sqliteConnection.close()
+
+
+CREATE TABLE ConnectivityCheck (
+id integer primary key autoincrement,
+site TEXT,
+type TEXT,
+lastcheck DATETIME default current_timestamp
+lastUp datetime,
+lastDown datetime,
+IsUp integer);
 #First imte i've used this, runs the script only if being called from cli. __name__ only == __main__ when run from cli
 #When imorted, main is still available, but will not be executed.
 if __name__ == "__main__":
