@@ -1,5 +1,6 @@
 import requests
 import sys
+import sqlite
 
 #to be replaced with argparse
 args = sys.argv[1:]
