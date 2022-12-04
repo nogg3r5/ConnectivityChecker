@@ -15,10 +15,8 @@ def check(sites):
  list = []
  for site in sites:
   site = 'http://' + site
-  print(site)
-  res = requests.get(site)
+  res = [requests.get(site),site]
   list.append(res)
-  print(list)
  print(list)
 
 def checkSocket(sites):
@@ -26,11 +24,12 @@ def checkSocket(sites):
   conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
   try:
    conn.connect((site, 80))
-   print('success')
+   res='success'
+   print(res+' '+site)
   except:
-   print('Failed') 
+   res='failure'
+   print(res+' '+site)
    return
-  return
 #First imte i've used this, runs the script only if being called from cli. __name__ only == __main__ when run from cli
 #When imorted, main is still available, but will not be executed.
 if __name__ == "__main__":
