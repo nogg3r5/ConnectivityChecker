@@ -3,66 +3,56 @@ import sys
 import socket
 import sqlite3
 
-#to be replaced with argparse
-#args = sys.argv[1:]
-
-def checkArgs():
- if not args:
-  sys.exit('please pass at least one url as an argument')
-
 def check(sites):
- #checkArgs()
  list = []
  for site in sites:
   addr = 'http://' + site
   try:
    requests.get(addr)
    req=True
+   writeToDb(True)
   except:
    req=False
+   writeToDb(False)
   res = [req,site]
   list.append(res)
  print(list)
 
 def checkSocket(sites):
+ list=[]
  for site in sites:
   conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
   try:
    conn.connect((site, 80))
-   res='success'
-   print(res+' '+site)
+   req=True
+   writeToDb(True)
   except:
-   res='failure'
-   print(res+' '+site)
-   return
+   req=False
+   writeToDb(False)
+ res=[req,site]
+ list.append(res)
+ print(list)
 
-def writeToDb:
- sqliteConnection = sqlite3.connect('/home/pi/ConnectivityChecker/db/db.sqlite')
- cursor = sqliteConnection.cursor()
+def writeToDb(isup):
+ #sqliteConnection = sqlite3.connect('/home/pi/ConnectivityChecker/db/db.sqlite')
+ #cursor = sqliteConnection.cursor()
 
-
- if(isup = True):
-  lastUp=date
+ if(isup == True):
+  #lastUp=date
+  print("Is up would be written todb")
  else:
-  lastdown=date
-  lastUp=get form db
+  print("Is down would be wrtten to DB")
+  #lastdown=date
+  #lastUp=get from db
+
+ #cursor.execute("INSERT INTO ConnectivityCheck (site,type,lastUp,lastDown,IsUp) values(?, ?, ?, ?, ?)",(site,type,lastUp,lastDown,IsUp))
+ #sqliteConnection.commit()
+ #cursor.close()
+ #sqliteConnection.close()
 
 
- cursor.execute("INSERT INTO ConnectivityCheck (site,type,lastUp,lastDown,IsUp) values(?, ?, ?, ?, ?)",(site,type,lastUp,lastDown,IsUp))
- sqliteConnection.commit()
- cursor.close()
- sqliteConnection.close()
+#CREATE TABLE ConnectivityCheck (id integer primary key autoincrement,site TEXT,type TEXT,lastcheck DATETIME default current_timestamplastUp datetime,lastDown datetime,IsUp integer);
 
 
-CREATE TABLE ConnectivityCheck (
-id integer primary key autoincrement,
-site TEXT,
-type TEXT,
-lastcheck DATETIME default current_timestamp
-lastUp datetime,
-lastDown datetime,
-IsUp integer);
-#First imte i've used this, runs the script only if being called from cli. __name__ only == __main__ when run from cli
-#When imorted, main is still available, but will not be executed.
 if __name__ == "__main__":
     check(args)
