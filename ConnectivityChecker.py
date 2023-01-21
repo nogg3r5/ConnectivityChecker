@@ -46,7 +46,7 @@ def writeToDb(site,type,IsUp):
   lastUp = datetime.now()
   print("Is up would be written todb")
   print(site,type,lastUp,IsUp)
-  cursor.execute("INSERT or replace INTO ConnectivityCheck (site,type,lastUp,IsUp) values(?, ?, ?, ?)",(site,type,lastUp,IsUp))
+  cursor.execute("INSERT or replace INTO ConnectivityCheck (id,type,lastUp,IsUp) values(?, ?, ?, ?)",(site,type,lastUp,IsUp))
   sqliteConnection.commit()
   cursor.close()
   sqliteConnection.close()
