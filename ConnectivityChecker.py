@@ -48,19 +48,31 @@ def writeToDb(site,type,IsUp):
   query = f"""select * from ConnectivityCheck where id = '{site}'; """
   cursor.execute(query)
   data = cursor.fetchall()
-  lastDown=data[0][4]
-  cursor.execute("INSERT or replace INTO ConnectivityCheck (id,type,lastUp,lastDown,IsUp) values(?, ?, ?, ?,?)",(site,type,lastUp,lastDown,IsUp))
+  if len(data) > 0:
+   lastDown=data[0][4]
+  downCount = 0
+  cursor.execute("INSERT or replace INTO ConnectivityCheck (id,type,lastUp,lastDown,IsUp,count) values(?, ?, ?, ?, ?, ?)",(site,type,lastUp,lastDown,IsUp,downCount))
   sqliteConnection.commit()
   cursor.close()
   sqliteConnection.close()
 
  else:
+  lastDown = datetime.now()
   query = f"""select * from ConnectivityCheck where id = '{site}'; """
   cursor.execute(query)
   data = cursor.fetchall()
-  lastUp=data[0][3]
-  lastDown = datetime.now()
-  cursor.execute("INSERT or replace INTO ConnectivityCheck (id,type,lastUp,lastDown,IsUp) values(?, ?, ?, ?, ?)",(site,type,lastUp,lastDown,IsUp))
+  if len(data) > 0:
+   lastUp=data[0][3]
+   downCount=data[0][6]
+  else:
+   downCount=0
+   lastUp=0
+  downCount=int(downCount)
+  if downCount == 0:
+   downCount = 1
+  else:
+   downCount = downCount+1
+  cursor.execute("INSERT or replace INTO ConnectivityCheck (id,type,lastUp,lastDown,IsUp,count) values(?, ?, ?, ?, ?, ?)",(site,type,lastUp,lastDown,IsUp,downCount))
   sqliteConnection.commit()
   cursor.close()
   sqliteConnection.close()
