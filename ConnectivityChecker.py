@@ -76,6 +76,9 @@ def writeToDb(site,type,IsUp):
   sqliteConnection.commit()
   cursor.close()
   sqliteConnection.close()
+  if downCount > 5:
+   requests.get('https://api.pushcut.io/trJMTZmRdcjHkiGiWnt4Z/notifications/ConnectivityCheck%20Failed')
+
 
 #CREATE TABLE ConnectivityCheck (id text primary key autoincrement,type TEXT,lastcheck DATETIME default current_timestamp,lastUp datetime,lastDown datetime,IsUp integer);
 
