@@ -3,6 +3,22 @@ import sys
 import socket
 import sqlite3
 from datetime import datetime
+import os
+
+def checkServices(services):
+ list=[]
+ for service in services:
+  type='service'
+  status = os.system('systemctl is-active --quiet '+ service)
+ if status == 0:
+  IsUp = True
+  writeToDb(service,type,IsUp)
+ else:
+  IsUp = False
+  writeToDb(service,type,IsUp)
+ res = [IsUp,service]
+ list.append(res)
+ print(list)
 
 def check(sites):
  list = []
@@ -50,6 +66,8 @@ def writeToDb(site,type,IsUp):
   data = cursor.fetchall()
   if len(data) > 0:
    lastDown=data[0][4]
+  else:
+   lastDown = 'null'
   downCount = 0
   cursor.execute("INSERT or replace INTO ConnectivityCheck (id,type,lastUp,lastDown,IsUp,count) values(?, ?, ?, ?, ?, ?)",(site,type,lastUp,lastDown,IsUp,downCount))
   sqliteConnection.commit()
