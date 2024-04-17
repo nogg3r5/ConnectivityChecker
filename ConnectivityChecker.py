@@ -42,6 +42,7 @@ def checkSocket(sites):
  list=[]
  for site in sites:
   conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+  conn.settimeout(10.0)
   type='socket'
   try:
    conn.connect((site, 80))
