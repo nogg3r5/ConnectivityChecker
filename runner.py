@@ -1,6 +1,6 @@
 import ConnectivityChecker as cc
 
-hosts =['192.168.4.48','raspberrypi4b.tail06b125.ts.net:3000/dashboard']
+hosts =['pizero2.tail06b125.ts.net:5000','raspberrypi4b.tail06b125.ts.net:3000/dashboard']
 sockets =['192.168.4.34']
 services =['PersonalDashboard']
 

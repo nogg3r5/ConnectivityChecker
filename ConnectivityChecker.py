@@ -27,7 +27,7 @@ def check(sites):
   type='site'
   try:
    requests.get(addr,timeout = 5)
-  except:
+  except Exception as e:
    IsUp=False
    writeToDb(site,type,IsUp)
   else:
@@ -46,7 +46,7 @@ def checkSocket(sites):
   type='socket'
   try:
    conn.connect((site, 80))
-  except:
+  except Exception as e:
    IsUp=False
    writeToDb(site,type,IsUp)
   else:
