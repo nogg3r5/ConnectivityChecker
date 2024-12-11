@@ -4,6 +4,7 @@ import socket
 import sqlite3
 from datetime import datetime
 import os
+import subprocess
 
 def checkServices(services):
  list=[]
@@ -30,6 +31,8 @@ def check(sites):
   except Exception as e:
    IsUp=False
    writeToDb(site,type,IsUp)
+   subprocess.run(["/usr/bin/tailscale","down","--accept-risk=lose-ssh"]) 
+   subprocess.run(["/usr/bin/tailscale","up"])
   else:
    IsUp=True
    writeToDb(site,type,IsUp)
