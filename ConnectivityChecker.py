@@ -6,7 +6,16 @@ from datetime import datetime
 import os
 import subprocess
 
+import logging
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename='ConnectivityChecker.log', encoding='utf-8', level=logging.INFO)
+#logger.debug('This message should go to the log file')
+logger.info('Connectivity Checker Ran')
+#logger.warning('And this, too')
+#logger.error('And non-ASCII stuff, too, like Øresund and Malmö')
+
 def checkServices(services):
+ logger.info('Connectivity Checker checked Services')
  list=[]
  for service in services:
   type='service'
@@ -22,6 +31,7 @@ def checkServices(services):
  print(list)
 
 def check(sites):
+ logger.info('Connectivity Checker checked Sites')
  list = []
  for site in sites:
   addr = 'http://' + site
@@ -31,6 +41,7 @@ def check(sites):
   except Exception as e:
    IsUp=False
    writeToDb(site,type,IsUp)
+   logger.warning('Connectivity Checker restarted Tailscale')
    subprocess.run(["/usr/bin/tailscale","down","--accept-risk=lose-ssh"]) 
    subprocess.run(["/usr/bin/tailscale","up"])
   else:
@@ -42,6 +53,7 @@ def check(sites):
  print(list)
 
 def checkSocket(sites):
+ logger.info('Connectivity Checker checked Sockets')
  list=[]
  for site in sites:
   conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
