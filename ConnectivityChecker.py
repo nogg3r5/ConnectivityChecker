@@ -15,7 +15,7 @@ logger.info('Connectivity Checker Ran')
 #logger.error('And non-ASCII stuff, too, like Øresund and Malmö')
 
 def checkServices(services):
- logger.info('Connectivity Checker checked Services')
+ #logger.info('Connectivity Checker checked Services')
  list=[]
  for service in services:
   type='service'
@@ -31,7 +31,7 @@ def checkServices(services):
  print(list)
 
 def check(sites):
- logger.info('Connectivity Checker checked Sites')
+ #logger.info('Connectivity Checker checked Sites')
  list = []
  for site in sites:
   addr = 'http://' + site
@@ -53,7 +53,7 @@ def check(sites):
  print(list)
 
 def checkSocket(sites):
- logger.info('Connectivity Checker checked Sockets')
+ #logger.info('Connectivity Checker checked Sockets')
  list=[]
  for site in sites:
   conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -109,7 +109,8 @@ def writeToDb(site,type,IsUp):
   cursor.execute("INSERT or replace INTO ConnectivityCheck (id,type,lastUp,lastDown,IsUp,count) values(?, ?, ?, ?, ?, ?)",(site,type,lastUp,lastDown,IsUp,downCount))
   sqliteConnection.commit()
   cursor.close()
-  sqliteConnection.close()
+
+sqliteConnection.close()
   if downCount > 5:
    requests.get('https://api.pushcut.io/trJMTZmRdcjHkiGiWnt4Z/notifications/ConnectivityCheck%20Failed')
 
