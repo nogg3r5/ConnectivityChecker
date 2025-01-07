@@ -8,7 +8,7 @@ import subprocess
 
 import logging
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename='ConnectivityChecker.log', encoding='utf-8', level=logging.INFO,format='%(asctime)s %(levelname)s %(module)s - %(funcName)s: %(message)s')
+logging.basicConfig(filename='ConnectivityChecker.log', encoding='utf-8', level=logging.WARNING,format='%(asctime)s %(levelname)s %(module)s - %(funcName)s: %(message)s')
 #logger.debug('This message should go to the log file')
 logger.info('Connectivity Checker Ran')
 #logger.warning('And this, too')
