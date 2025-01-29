@@ -46,7 +46,6 @@ def check(sites):
   except Exception as e:
    IsUp=False
    writeToDb(site,type,IsUp)
-   notify(site)
    logger.warning('Connectivity Checker restarted Tailscale')
    subprocess.run(["/usr/bin/tailscale","down","--accept-risk=lose-ssh"]) 
    subprocess.run(["/usr/bin/tailscale","up"])
