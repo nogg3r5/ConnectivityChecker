@@ -14,6 +14,11 @@ logger.info('Connectivity Checker Ran')
 #logger.warning('And this, too')
 #logger.error('And non-ASCII stuff, too, like Øresund and Malmö')
 
+def notify(message):
+ message = message + " is offline"
+ headers = {"Title":"Connectivity Check Alert","Priority": "5" ,"Tags": "skull"}
+ requests.post("https://ntfy.sh/shaunAlerts",data=message,headers=headers)
+
 def checkServices(services):
  #logger.info('Connectivity Checker checked Services')
  list=[]
@@ -41,6 +46,7 @@ def check(sites):
   except Exception as e:
    IsUp=False
    writeToDb(site,type,IsUp)
+   notify(site)
    logger.warning('Connectivity Checker restarted Tailscale')
    subprocess.run(["/usr/bin/tailscale","down","--accept-risk=lose-ssh"]) 
    subprocess.run(["/usr/bin/tailscale","up"])
@@ -112,6 +118,7 @@ def writeToDb(site,type,IsUp):
  sqliteConnection.close()
  if downCount > 5:
   requests.get('https://api.pushcut.io/trJMTZmRdcjHkiGiWnt4Z/notifications/ConnectivityCheck%20Failed')
+  notify(site)
 
 
 #CREATE TABLE ConnectivityCheck (id text primary key autoincrement,type TEXT,lastcheck DATETIME default current_timestamp,lastUp datetime,lastDown datetime,IsUp integer);
